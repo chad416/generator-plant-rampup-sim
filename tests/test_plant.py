@@ -71,17 +71,32 @@ def test_observed_first_pass_yield_matches_input(cfg, run_1x):
 
 def test_below_capacity_bound_cannot_keep_up(cfg):
     lb = lower_bound(cfg, "1x")
-    r = Plant(resolve(cfg, "1x", {"test": lb["test"] - 1}), 4).run()
-    assert lb["test"] - 1 >= 1
+    # take the first station whose bound is at least 2, so one server less is still a plant
+    name = next(k for k in ("stator_winding", "test", "rotor_winding", "manual_assembly") if lb.get(k, 0) >= 2)
+    r = Plant(resolve(cfg, "1x", {name: lb[name] - 1}), 4).run()
     assert r["throughput_per_day"] < 0.95 * r["demand_per_day"]
 
 
 # ------------------------------------------------- test_times.json interface
 def test_default_test_times_file_loads():
+    raw = json.loads((ROOT / "data" / "test_times.json").read_text(encoding="utf-8"))
     tt = load_test_times(ROOT / "data" / "test_times.json")
-    assert tt["source"] == "placeholder"
-    assert tt["frames"]["small"]["routine_min"] == pytest.approx(25.0)
-    assert tt["changeover_min"] == pytest.approx(10.0)
+    assert tt["source"] == raw["source"]
+    for f in ("small", "medium", "large"):
+        assert tt["frames"][f]["routine_min"] == pytest.approx(raw["frames"][f]["routine_s"] / 60)
+    assert tt["changeover_min"] == pytest.approx(raw["changeover_s"] / 60)
+
+
+def test_handling_from_file_overrides_config(tmp_path, cfg):
+    from rampup.config import handling_min
+    p = tmp_path / "tt.json"
+    frames = {f: {"routine_s": 300, "type_test_extra_s": 0} for f in ("small", "medium", "large")}
+    frames["large"]["handling_s"] = 2400
+    p.write_text(json.dumps({"source": "x", "frames": frames, "changeover_s": 0}), encoding="utf-8")
+    tt = load_test_times(p)
+    st = cfg["stations"]["test"]
+    assert handling_min(st, tt, "large") == pytest.approx(40.0)
+    assert handling_min(st, tt, "small") == st["handling_min"]
 
 
 def test_sister_project_file_shape_is_accepted(tmp_path):
@@ -111,12 +126,23 @@ def test_malformed_test_times_rejected(tmp_path, bad):
 
 
 def test_longer_test_times_load_the_benches_more(cfg):
+    from rampup.config import handling_min
     spec = resolve(cfg, "1x", quick=True)
     base = Plant(spec, 8).run()["util"]["test"]["busy"]
     slow = resolve(cfg, "1x", quick=True)
     for f in slow["test_times"]["frames"].values():
         f["routine_min"] *= 1.5
-    assert Plant(slow, 8).run()["util"]["test"]["busy"] > base + 0.1
+    # expected growth of bench occupation per unit, weighted by demand
+    st, d = cfg["stations"]["test"], cfg["demand"]
+
+    def occupation(tt):
+        return sum(d[f] * (handling_min(st, tt, f) + tt["frames"][f]["routine_min"]) for f in d)
+
+    ratio = occupation(slow["test_times"]) / occupation(spec["test_times"])
+    assert ratio > 1.05
+    # the quick run is short and the two runs diverge, and changeovers and re-tests are not
+    # in `occupation`, so only require at least half of the expected growth
+    assert Plant(slow, 8).run()["util"]["test"]["busy"] > base * (1 + 0.5 * (ratio - 1))
 
 
 # --------------------------------------------------------------------- CLI

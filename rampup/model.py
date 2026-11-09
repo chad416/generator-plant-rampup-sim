@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 import simpy
 
-from .config import FRAMES
+from .config import FRAMES, handling_min
 from .dists import draw
 from .resources import AgvFleet, BatchOven, Station, make_distance_matrix
 from .stats import TimeWeighted
@@ -167,7 +167,7 @@ class Plant:
         tt = self.spec["test_times"]
 
         def duration(server):
-            manual = draw(self.rng, c["handling_min"], c["cv"], c["dist"])
+            manual = draw(self.rng, handling_min(c, tt, u.frame), c["cv"], c["dist"])
             if server.last_frame is not None and server.last_frame != u.frame:
                 manual += tt["changeover_min"]
                 if self.w0 <= self.env.now < self.w1:

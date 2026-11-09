@@ -9,7 +9,7 @@ from concurrent.futures import Executor, ProcessPoolExecutor
 from statistics import mean
 from typing import Callable
 
-from .config import FRAMES, active_stations, day_minutes, resolve, resource_keys
+from .config import FRAMES, active_stations, day_minutes, handling_min, resolve, resource_keys
 from .model import run_replication
 from .resources import make_distance_matrix
 from .stats import mean_ci
@@ -117,7 +117,7 @@ def lower_bound(cfg: dict, scenario: str) -> dict:
         if name == "test":
             load = sum(
                 dem[f] * (2 - c["first_pass_yield"][f])
-                * (c["handling_min"] + tt["frames"][f]["routine_min"])
+                * (handling_min(c, tt, f) + tt["frames"][f]["routine_min"])
                 + dem[f] * c["type_test_share"] * tt["frames"][f]["type_test_extra_min"]
                 for f in FRAMES)
         elif name == "repair":

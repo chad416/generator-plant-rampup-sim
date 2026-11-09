@@ -34,8 +34,9 @@ def test_new_hire_share_is_new_servers_over_all_servers():
 
 def test_ramp_output_is_lower_early_and_recovers():
     cfg = load_config()
-    res = {"stator_winding": 6, "rotor_winding": 3, "impregnation": 4, "robot_cell": 2,
-           "fine_work": 2, "test": 5, "repair": 1, "packing": 2, "agv": 3}
+    # the 3x minimum from the search: stations run close to full, so slow new hires show
+    res = {"stator_winding": 5, "rotor_winding": 3, "impregnation": 4, "robot_cell": 2,
+           "fine_work": 2, "test": 3, "repair": 1, "packing": 2, "agv": 3}
     spec = resolve(cfg, "3x", res, ramp=True)
     spec["run"]["ramp_weeks"] = 20
     trained = dict(spec, p_new={})

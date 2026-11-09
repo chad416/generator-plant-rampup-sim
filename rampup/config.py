@@ -20,8 +20,9 @@ ASSEMBLY_STATIONS = {"manual": ("manual_assembly",), "robot": ("robot_cell", "fi
 def load_test_times(path: str | Path) -> dict:
     """Read test_times.json (interface with the routine-test station project).
 
-    Returns times in minutes: {"source", "frames": {f: {"routine_min", "type_test_extra_min"}},
-    "changeover_min"}.
+    Returns times in minutes: {"source", "frames": {f: {"routine_min", "type_test_extra_min",
+    "handling_min"}}, "changeover_min"}. "handling_s" per frame is optional; when the file
+    gives it, it replaces stations.test.handling_min for that frame (see handling_min()).
     """
     raw = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(raw.get("source"), str):
@@ -36,15 +37,26 @@ def load_test_times(path: str | Path) -> dict:
             v = entry.get(key)
             if not isinstance(v, (int, float)) or v < 0 or math.isnan(v):
                 raise ValueError(f"{path}: frames.{f}.{key} must be a number >= 0")
+        h = entry.get("handling_s")
+        if h is not None and (not isinstance(h, (int, float)) or h < 0 or math.isnan(h)):
+            raise ValueError(f"{path}: frames.{f}.handling_s must be a number >= 0")
         out["frames"][f] = {
             "routine_min": entry["routine_s"] / 60.0,
             "type_test_extra_min": entry["type_test_extra_s"] / 60.0,
+            "handling_min": None if h is None else h / 60.0,
         }
     c = raw.get("changeover_s")
     if not isinstance(c, (int, float)) or c < 0:
         raise ValueError(f"{path}: 'changeover_s' must be a number >= 0")
     out["changeover_min"] = c / 60.0
     return out
+
+
+def handling_min(test_station: dict, test_times: dict, frame: str) -> float:
+    """Mean manual handling per test (connect, start, disconnect): the test-station
+    project's per-frame value when its file gives one, else the config value."""
+    h = test_times["frames"][frame].get("handling_min")
+    return test_station["handling_min"] if h is None else h
 
 
 def load_config(path: str | Path | None = None) -> dict:

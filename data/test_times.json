@@ -1,9 +1,28 @@
 {
-  "source": "placeholder",
-  "frames": {
-    "small": {"routine_s": 1500, "type_test_extra_s": 400},
-    "medium": {"routine_s": 2400, "type_test_extra_s": 900},
-    "large": {"routine_s": 3600, "type_test_extra_s": 1800}
+ "source": "alternator-routine-test-station v0.1.0",
+ "frames": {
+  "small": {
+   "routine_s": 249.2,
+   "handling_s": 900.0,
+   "type_test_extra_s": 216.5,
+   "type_test_on_this_bench": true,
+   "n": 173
   },
-  "changeover_s": 600
+  "medium": {
+   "routine_s": 307.1,
+   "handling_s": 1500.0,
+   "type_test_extra_s": 216.8,
+   "type_test_on_this_bench": true,
+   "n": 87
+  },
+  "large": {
+   "routine_s": 429.6,
+   "handling_s": 2400.0,
+   "type_test_extra_s": 0.0,
+   "type_test_on_this_bench": false,
+   "n": 79
+  }
+ },
+ "changeover_s": 600,
+ "note": "routine_s = mean PLC sequence time of passed units (simulated). handling_s = mounting, coupling, wiring and removal per unit, an assumption from config/capacity.json; bench occupation = routine_s + handling_s. type_test_extra_s = 0 where the bench cannot run the type test (load above bench power)."
 }
