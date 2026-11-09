@@ -1,0 +1,9 @@
+{
+  "source": "placeholder",
+  "frames": {
+    "small": {"routine_s": 1500, "type_test_extra_s": 400},
+    "medium": {"routine_s": 2400, "type_test_extra_s": 900},
+    "large": {"routine_s": 3600, "type_test_extra_s": 1800}
+  },
+  "changeover_s": 600
+}

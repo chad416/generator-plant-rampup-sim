@@ -1,0 +1,3 @@
+# Private scenario files stay local: everything here except this file is ignored.
+*
+!.gitignore

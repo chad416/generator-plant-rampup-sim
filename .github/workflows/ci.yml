@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python packages
+        run: pip install -r requirements.txt
+      - name: Unit and model tests
+        run: python -m pytest -q
+      - name: Smoke run (quick, 1x on current resources must meet demand)
+        run: python -m rampup run --scenario 1x --quick --min-service 0.95
+      - name: Smoke search and plots (quick)
+        run: |
+          python -m rampup search --quick
+          python -m rampup plots --quick
+      - uses: actions/upload-artifact@v4
+        with:
+          name: results-quick
+          path: results/quick/

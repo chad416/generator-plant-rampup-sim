@@ -1,0 +1,171 @@
+# Base assumptions for the ramp-up model.
+#
+# EVERY NUMBER IN THIS FILE IS AN ASSUMPTION. None of it is plant data.
+# The values are round numbers chosen to be plausible for a mid-size plant
+# building low-voltage synchronous alternators in three frame sizes.
+# Replace them with measured values before drawing any real conclusion.
+#
+# Units: time in minutes unless the key says _h (hours) or _s (seconds).
+# "Working time" means time inside a shift. The model clock only counts
+# working time (see calendar).
+
+calendar:
+  shifts_per_day: 3          # three shifts per working day
+  shift_hours: 7.5           # working time per shift (breaks already removed)
+  days_per_week: 5           # Monday to Friday, no weekend work, no overtime
+
+demand:                      # units released per working day at 1x demand
+  small: 20                  # small frame
+  medium: 6                  # medium frame
+  large: 4                   # large frame
+
+release: poisson            # "poisson": each day's quantity per frame is Poisson
+                             # around the mean and spread evenly over the day;
+                             # "fixed": exactly the mean rate, evenly spaced
+
+due_days: 3                  # quoted lead time in working days; a unit is on time
+                             # if it ships within this time after release
+
+run:
+  warmup_weeks: 2            # discarded at the start (plant starts empty)
+  measure_weeks: 20          # measurement window after warm-up
+  replications: 10           # independent runs per configuration
+  base_seed: 2026            # replication i uses seed base_seed * 1000 + i
+  service_target: 0.95       # search goal: lower 95 % CI bound of the
+                             # on-time share must reach this value
+  ramp_weeks: 26             # length of the hiring ramp run (learning curve plot)
+
+learning:
+  start_speed: 0.60          # a new hire works at 60 % of trained speed on day one
+  weeks_to_full: 12          # and reaches 100 % after this many working weeks (linear)
+
+# Time distributions: "lognormal" (default), "triangular", "exponential" or
+# "deterministic". cv = standard deviation / mean.
+# mtbf_h / mttr_h: mean busy hours between failures / mean repair time in hours,
+# both exponential. A failure is noticed at the end of the job in progress
+# (non-preemptive). null = no breakdowns modelled.
+# staffed: true if the station's speed depends on operator skill (learning curve).
+# operators_per_shift: direct operators per server per shift (for head count only).
+
+stations:
+  stator_winding:
+    servers: 2               # current number of stator winding machines
+    times_min: {small: 45, medium: 90, large: 150}
+    dist: lognormal
+    cv: 0.15
+    mtbf_h: 60
+    mttr_h: 1.5
+    staffed: true
+    operators_per_shift: 1
+
+  rotor_winding:
+    servers: 1               # current number of rotor winding machines
+    times_min: {small: 25, medium: 45, large: 70}
+    dist: lognormal
+    cv: 0.15
+    mtbf_h: 60
+    mttr_h: 1.5
+    staffed: true
+    operators_per_shift: 1
+
+  manual_assembly:           # used when assembly mode = manual
+    servers: 3               # three manual assembly lines today
+    times_min: {small: 60, medium: 120, large: 180}
+    dist: lognormal
+    cv: 0.25                 # manual work: wide spread
+    mtbf_h: 120              # tooling / fixture failures
+    mttr_h: 1.0
+    staffed: true
+    operators_per_shift: 6   # people per manual line
+
+  robot_cell:                # used when assembly mode = robot
+    servers: 1               # one robot cell replaces the three manual lines
+    times_min: {small: 14, medium: 25, large: 36}
+    dist: lognormal
+    cv: 0.05                 # robot cycle: narrow spread
+    mtbf_h: 80
+    mttr_h: 1.0
+    pm_interval_h: 112.5     # scheduled maintenance once per working week
+    pm_duration_h: 2.0
+    staffed: false           # cycle set by the robot, not by operator skill
+    operators_per_shift: 1   # cell tender
+
+  fine_work:                 # manual finishing after the robot cell (robot mode only)
+    servers: 3               # three operators for fine work
+    times_min: {small: 15, medium: 30, large: 45}
+    dist: lognormal
+    cv: 0.20
+    mtbf_h: null
+    mttr_h: null
+    staffed: true
+    operators_per_shift: 1
+
+  test:                      # routine electrical test benches
+    servers: 2               # current number of test benches
+    handling_min: 10         # connect, start, disconnect (manual part)
+    dist: lognormal
+    cv: 0.20                 # spread of the manual handling part only;
+                             # the test sequence itself is fixed (from test_times.json)
+    type_test_share: 0.02    # share of units that also get the extra type-test steps
+    first_pass_yield: {small: 0.97, medium: 0.95, large: 0.93}
+    retest_yield: 0.98       # pass rate after repair
+    mtbf_h: 100
+    mttr_h: 2.0
+    staffed: true            # handling and changeover depend on the technician
+    operators_per_shift: 1
+
+  repair:                    # repair of units that failed the routine test
+    servers: 1
+    times_min: {small: 60, medium: 90, large: 120}
+    dist: lognormal
+    cv: 0.60
+    mtbf_h: null
+    mttr_h: null
+    staffed: true
+    operators_per_shift: 1
+
+  packing:
+    servers: 1
+    times_min: {small: 20, medium: 35, large: 50}
+    dist: lognormal
+    cv: 0.20
+    mtbf_h: 200
+    mttr_h: 0.5
+    staffed: true
+    operators_per_shift: 2
+
+test_times_file: data/test_times.json   # routine test times per frame (sister project)
+
+impregnation:                # vacuum-pressure impregnation + cure oven (batch)
+  ovens: 2                   # current number of ovens
+  capacity_slots: 12         # load per oven cycle, in slots
+  slots: {small: 1, medium: 2, large: 3}   # slots taken by one stator or one rotor
+  cycle_min: 240             # fixed cycle: impregnate + cure + cool
+  fill_timeout_min: 60       # start a part-full batch once the oldest part waited this long
+  mtbf_h: 200
+  mttr_h: 4.0
+  operators_per_shift: 1     # per oven (head count only; ovens have no learning curve)
+
+agv:
+  fleet: 2                   # current number of AGVs
+  speed_m_per_min: 60        # 1 m/s average including slow-downs
+  handling_min: 2.0          # load + unload per move
+  battery_drive_min: 240     # active minutes before the AGV must charge
+  charge_min: 60             # charging time at the charger
+  start_location: charger
+  # Distance matrix in metres (symmetric; only one direction listed).
+  # Nodes: stator_winding, rotor_winding, impregnation, assembly, test,
+  # packing, shipping, charger. Derived from an assumed U-shaped layout.
+  distance_m:
+    stator_winding: {rotor_winding: 40, impregnation: 80, assembly: 140, test: 200, packing: 260, shipping: 220, charger: 140}
+    rotor_winding: {impregnation: 80, assembly: 140, test: 200, packing: 220, shipping: 180, charger: 100}
+    impregnation: {assembly: 60, test: 120, packing: 180, shipping: 140, charger: 60}
+    assembly: {test: 60, packing: 120, shipping: 80, charger: 120}
+    test: {packing: 60, shipping: 140, charger: 180}
+    packing: {shipping: 80, charger: 120}
+    shipping: {charger: 80}
+
+scenarios:
+  1x: {demand_mult: 1, assembly: manual}   # today: three manual lines
+  2x: {demand_mult: 2, assembly: robot}    # robot cell + fine-work operators
+  3x: {demand_mult: 3, assembly: robot}

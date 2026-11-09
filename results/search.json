@@ -1,0 +1,771 @@
+{
+ "1x": {
+  "scenario": "1x",
+  "service_target": 0.95,
+  "lower_bound": {
+   "stator_winding": 2,
+   "rotor_winding": 1,
+   "impregnation": 2,
+   "manual_assembly": 2,
+   "test": 2,
+   "repair": 1,
+   "packing": 1,
+   "agv": 1
+  },
+  "minimum": {
+   "stator_winding": 2,
+   "rotor_winding": 1,
+   "impregnation": 2,
+   "manual_assembly": 3,
+   "test": 2,
+   "repair": 1,
+   "packing": 1,
+   "agv": 2
+  },
+  "evaluations": 4,
+  "history": [
+   {
+    "resources": {
+     "stator_winding": 2,
+     "rotor_winding": 1,
+     "impregnation": 2,
+     "manual_assembly": 2,
+     "test": 2,
+     "repair": 1,
+     "packing": 1,
+     "agv": 1
+    },
+    "service_level": {
+     "mean": 0.9697358269514391,
+     "half": 0.05254976644306268,
+     "lo": 0.9171860605083765,
+     "hi": 1.0222855933945019,
+     "n": 10
+    },
+    "throughput_per_day": 29.819,
+    "bottleneck": "manual_assembly",
+    "meets_target": false
+   },
+   {
+    "resources": {
+     "stator_winding": 2,
+     "rotor_winding": 1,
+     "impregnation": 2,
+     "manual_assembly": 3,
+     "test": 2,
+     "repair": 1,
+     "packing": 1,
+     "agv": 1
+    },
+    "service_level": {
+     "mean": 0.9814912704015134,
+     "half": 0.03905945614739907,
+     "lo": 0.9424318142541144,
+     "hi": 1.0205507265489124,
+     "n": 10
+    },
+    "throughput_per_day": 29.98,
+    "bottleneck": "agv",
+    "meets_target": false
+   },
+   {
+    "resources": {
+     "stator_winding": 2,
+     "rotor_winding": 1,
+     "impregnation": 2,
+     "manual_assembly": 3,
+     "test": 2,
+     "repair": 1,
+     "packing": 1,
+     "agv": 2
+    },
+    "service_level": {
+     "mean": 1.0,
+     "half": 0.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n": 10
+    },
+    "throughput_per_day": 30.015,
+    "bottleneck": "rotor_winding",
+    "meets_target": true
+   },
+   {
+    "resources": {
+     "stator_winding": 2,
+     "rotor_winding": 1,
+     "impregnation": 2,
+     "manual_assembly": 2,
+     "test": 2,
+     "repair": 1,
+     "packing": 1,
+     "agv": 2
+    },
+    "service_level": {
+     "mean": 0.9810602351117494,
+     "half": 0.042675506974631135,
+     "lo": 0.9383847281371183,
+     "hi": 1.0237357420863806,
+     "n": 10
+    },
+    "throughput_per_day": 29.591,
+    "bottleneck": "manual_assembly",
+    "meets_target": false
+   }
+  ],
+  "final": {
+   "scenario": "1x",
+   "resources": {
+    "stator_winding": 2,
+    "rotor_winding": 1,
+    "impregnation": 2,
+    "manual_assembly": 3,
+    "test": 2,
+    "repair": 1,
+    "packing": 1,
+    "agv": 2
+   },
+   "demand_per_day": 30.0,
+   "replications": 10,
+   "operators_3_shifts": 84,
+   "throughput_per_day": {
+    "mean": 30.015,
+    "half": 0.3071150386744356,
+    "lo": 29.707884961325565,
+    "hi": 30.322115038674436,
+    "n": 10
+   },
+   "service_level": {
+    "mean": 1.0,
+    "half": 0.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 10
+   },
+   "wip_mean": {
+    "mean": 14.89692782327453,
+    "half": 0.31939776621538174,
+    "lo": 14.577530057059148,
+    "hi": 15.21632558948991,
+    "n": 10
+   },
+   "lead_time_mean_days": {
+    "mean": 0.4962708207527528,
+    "half": 0.007953729852697423,
+    "lo": 0.4883170909000554,
+    "hi": 0.5042245506054502,
+    "n": 10
+   },
+   "oven_mean_fill": {
+    "mean": 0.6734168037540075,
+    "half": 0.007095072700620222,
+    "lo": 0.6663217310533872,
+    "hi": 0.6805118764546277,
+    "n": 10
+   },
+   "agv_moves_per_day": {
+    "mean": 210.097,
+    "half": 2.1752267519401265,
+    "lo": 207.92177324805988,
+    "hi": 212.27222675194014,
+    "n": 10
+   },
+   "changeovers_per_day": {
+    "mean": 15.803,
+    "half": 0.2913027062627466,
+    "lo": 15.511697293737255,
+    "hi": 16.09430270626275,
+    "n": 10
+   },
+   "first_pass_yield": {
+    "mean": 0.960963442782813,
+    "half": 0.0025267999239173464,
+    "lo": 0.9584366428588956,
+    "hi": 0.9634902427067303,
+    "n": 10
+   },
+   "throughput_by_frame": {
+    "small": 19.775,
+    "medium": 6.07,
+    "large": 4.17
+   },
+   "util": {
+    "stator_winding": {
+     "servers": 2,
+     "busy": 0.7635188849269561,
+     "down": 0.018816586791960938,
+     "pm": 0.0,
+     "util": 0.782335471718917,
+     "queue": 0.6434355620038346,
+     "wait_min": 28.860891319504677
+    },
+    "rotor_winding": {
+     "servers": 1,
+     "busy": 0.7858160604728867,
+     "down": 0.018325432192459953,
+     "pm": 0.0,
+     "util": 0.8041414926653466,
+     "queue": 1.1081763158584768,
+     "wait_min": 49.85624290973685
+    },
+    "manual_assembly": {
+     "servers": 3,
+     "busy": 0.6594236640799854,
+     "down": 0.00514074244735052,
+     "pm": 0.0,
+     "util": 0.664564406527336,
+     "queue": 0.36054864944577925,
+     "wait_min": 16.22026100502296
+    },
+    "test": {
+     "servers": 2,
+     "busy": 0.5592716426846827,
+     "down": 0.011272432786900547,
+     "pm": 0.0,
+     "util": 0.5705440754715831,
+     "queue": 0.15133573578154091,
+     "wait_min": 6.539482445093125
+    },
+    "repair": {
+     "servers": 1,
+     "busy": 0.07189961666243622,
+     "down": 0.0,
+     "pm": 0.0,
+     "util": 0.07189961666243622,
+     "queue": 0.0033378292444731492,
+     "wait_min": 3.7012272379256976
+    },
+    "packing": {
+     "servers": 1,
+     "busy": 0.6048826585077637,
+     "down": 0.0015200275353643264,
+     "pm": 0.0,
+     "util": 0.606402686043128,
+     "queue": 0.28733089987305527,
+     "wait_min": 12.92356330741821
+    },
+    "impregnation": {
+     "servers": 2,
+     "busy": 0.9775708496123087,
+     "down": 0.017784401100411067,
+     "pm": 0.0,
+     "util": 0.6761124772837123,
+     "queue": 3.107944793565167,
+     "wait_min": 69.8893094084928
+    },
+    "agv": {
+     "servers": 2,
+     "busy": 0.3660607276853244,
+     "down": 0.09314541956997908,
+     "pm": 0.0,
+     "util": 0.45920614725530345,
+     "queue": 0.5382529625820837,
+     "wait_min": 3.4581172124547956
+    }
+   },
+   "bottleneck": "rotor_winding",
+   "longest_queue": "impregnation",
+   "bottleneck_votes": {
+    "rotor_winding": 10
+   },
+   "lead_time_days": {
+    "p50": 0.46987277058058813,
+    "p90": 0.6521044346066949,
+    "p95": 0.7150441858692393,
+    "max": 1.2143237061515593,
+    "n": 30015
+   },
+   "weekly_demand": 150.0,
+   "little": {
+    "L": 14.89692782327453,
+    "lambda_W": 14.896903591177724
+   },
+   "meets_target": true
+  }
+ },
+ "2x": {
+  "scenario": "2x",
+  "service_target": 0.95,
+  "lower_bound": {
+   "stator_winding": 4,
+   "rotor_winding": 2,
+   "impregnation": 3,
+   "robot_cell": 1,
+   "fine_work": 1,
+   "test": 3,
+   "repair": 1,
+   "packing": 2,
+   "agv": 2
+  },
+  "minimum": {
+   "stator_winding": 4,
+   "rotor_winding": 2,
+   "impregnation": 3,
+   "robot_cell": 1,
+   "fine_work": 1,
+   "test": 3,
+   "repair": 1,
+   "packing": 2,
+   "agv": 2
+  },
+  "evaluations": 1,
+  "history": [
+   {
+    "resources": {
+     "stator_winding": 4,
+     "rotor_winding": 2,
+     "impregnation": 3,
+     "robot_cell": 1,
+     "fine_work": 1,
+     "test": 3,
+     "repair": 1,
+     "packing": 2,
+     "agv": 2
+    },
+    "service_level": {
+     "mean": 1.0,
+     "half": 0.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n": 10
+    },
+    "throughput_per_day": 59.693,
+    "bottleneck": "fine_work",
+    "meets_target": true
+   }
+  ],
+  "final": {
+   "scenario": "2x",
+   "resources": {
+    "stator_winding": 4,
+    "rotor_winding": 2,
+    "impregnation": 3,
+    "robot_cell": 1,
+    "fine_work": 1,
+    "test": 3,
+    "repair": 1,
+    "packing": 2,
+    "agv": 2
+   },
+   "demand_per_day": 60.0,
+   "replications": 10,
+   "operators_3_shifts": 57,
+   "throughput_per_day": {
+    "mean": 59.693,
+    "half": 0.602889366265486,
+    "lo": 59.09011063373451,
+    "hi": 60.295889366265484,
+    "n": 10
+   },
+   "service_level": {
+    "mean": 1.0,
+    "half": 0.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 10
+   },
+   "wip_mean": {
+    "mean": 48.95116891228538,
+    "half": 6.310383401603103,
+    "lo": 42.64078551068228,
+    "hi": 55.26155231388849,
+    "n": 10
+   },
+   "lead_time_mean_days": {
+    "mean": 0.8206420120032547,
+    "half": 0.09953767338451965,
+    "lo": 0.721104338618735,
+    "hi": 0.9201796853877744,
+    "n": 10
+   },
+   "oven_mean_fill": {
+    "mean": 0.883639685361484,
+    "half": 0.007369971258490351,
+    "lo": 0.8762697141029936,
+    "hi": 0.8910096566199743,
+    "n": 10
+   },
+   "agv_moves_per_day": {
+    "mean": 417.455,
+    "half": 4.0930690509323195,
+    "lo": 413.36193094906764,
+    "hi": 421.5480690509323,
+    "n": 10
+   },
+   "changeovers_per_day": {
+    "mean": 29.539,
+    "half": 0.44860718933606036,
+    "lo": 29.090392810663943,
+    "hi": 29.98760718933606,
+    "n": 10
+   },
+   "first_pass_yield": {
+    "mean": 0.9604181375368996,
+    "half": 0.0009687548806008,
+    "lo": 0.9594493826562989,
+    "hi": 0.9613868924175004,
+    "n": 10
+   },
+   "throughput_by_frame": {
+    "small": 39.974,
+    "medium": 11.796,
+    "large": 7.923
+   },
+   "util": {
+    "stator_winding": {
+     "servers": 4,
+     "busy": 0.7486845238911759,
+     "down": 0.01743873971500715,
+     "pm": 0.0,
+     "util": 0.766123263606183,
+     "queue": 0.183477867893269,
+     "wait_min": 4.1679036720416685
+    },
+    "rotor_winding": {
+     "servers": 2,
+     "busy": 0.7708624124159446,
+     "down": 0.02101037602819209,
+     "pm": 0.0,
+     "util": 0.7918727884441366,
+     "queue": 0.5182995096753963,
+     "wait_min": 11.73423817767346
+    },
+    "robot_cell": {
+     "servers": 1,
+     "busy": 0.8436799867115843,
+     "down": 0.008831016288148197,
+     "pm": 0.017777777777777778,
+     "util": 0.8702887807775103,
+     "queue": 2.505171776472239,
+     "wait_min": 56.7871556258863
+    },
+    "fine_work": {
+     "servers": 1,
+     "busy": 0.9697979994138032,
+     "down": 0.0,
+     "pm": 0.0,
+     "util": 0.9697979994138032,
+     "queue": 13.669846984853823,
+     "wait_min": 308.3569940454013
+    },
+    "test": {
+     "servers": 3,
+     "busy": 0.731911610036143,
+     "down": 0.015100694340197477,
+     "pm": 0.0,
+     "util": 0.7470123043763405,
+     "queue": 0.3405434086053125,
+     "wait_min": 7.4037240879758945
+    },
+    "repair": {
+     "servers": 1,
+     "busy": 0.1438123903215284,
+     "down": 0.0,
+     "pm": 0.0,
+     "util": 0.1438123903215284,
+     "queue": 0.014938308588258719,
+     "wait_min": 8.408422940210343
+    },
+    "packing": {
+     "servers": 2,
+     "busy": 0.5949798378151049,
+     "down": 0.0015863463201029953,
+     "pm": 0.0,
+     "util": 0.5965661841352078,
+     "queue": 0.1810418552140178,
+     "wait_min": 4.092240683267389
+    },
+    "impregnation": {
+     "servers": 3,
+     "busy": 0.974743576074808,
+     "down": 0.017956760622883497,
+     "pm": 0.0,
+     "util": 0.8791963360922816,
+     "queue": 7.455949794432481,
+     "wait_min": 84.47078063938639
+    },
+    "agv": {
+     "servers": 2,
+     "busy": 0.7504577901723637,
+     "down": 0.19092571535737649,
+     "pm": 0.0,
+     "util": 0.9413835055297401,
+     "queue": 11.450326216658748,
+     "wait_min": 36.92497659915919
+    }
+   },
+   "bottleneck": "fine_work",
+   "longest_queue": "fine_work",
+   "bottleneck_votes": {
+    "fine_work": 10
+   },
+   "lead_time_days": {
+    "p50": 0.7495153772731471,
+    "p90": 1.305585887003343,
+    "p95": 1.49021421594448,
+    "max": 2.591530061753723,
+    "n": 59693
+   },
+   "weekly_demand": 300.0,
+   "little": {
+    "L": 48.95116891228538,
+    "lambda_W": 49.06402845167834
+   },
+   "meets_target": true
+  }
+ },
+ "3x": {
+  "scenario": "3x",
+  "service_target": 0.95,
+  "lower_bound": {
+   "stator_winding": 5,
+   "rotor_winding": 3,
+   "impregnation": 4,
+   "robot_cell": 2,
+   "fine_work": 2,
+   "test": 4,
+   "repair": 1,
+   "packing": 2,
+   "agv": 2
+  },
+  "minimum": {
+   "stator_winding": 5,
+   "rotor_winding": 3,
+   "impregnation": 4,
+   "robot_cell": 2,
+   "fine_work": 2,
+   "test": 4,
+   "repair": 1,
+   "packing": 2,
+   "agv": 3
+  },
+  "evaluations": 2,
+  "history": [
+   {
+    "resources": {
+     "stator_winding": 5,
+     "rotor_winding": 3,
+     "impregnation": 4,
+     "robot_cell": 2,
+     "fine_work": 2,
+     "test": 4,
+     "repair": 1,
+     "packing": 2,
+     "agv": 2
+    },
+    "service_level": {
+     "mean": 0.0,
+     "half": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 10
+    },
+    "throughput_per_day": 44.202,
+    "bottleneck": "agv",
+    "meets_target": false
+   },
+   {
+    "resources": {
+     "stator_winding": 5,
+     "rotor_winding": 3,
+     "impregnation": 4,
+     "robot_cell": 2,
+     "fine_work": 2,
+     "test": 4,
+     "repair": 1,
+     "packing": 2,
+     "agv": 3
+    },
+    "service_level": {
+     "mean": 0.9957269639531061,
+     "half": 0.009665607538073842,
+     "lo": 0.9860613564150322,
+     "hi": 1.00539257149118,
+     "n": 10
+    },
+    "throughput_per_day": 89.266,
+    "bottleneck": "impregnation",
+    "meets_target": true
+   }
+  ],
+  "final": {
+   "scenario": "3x",
+   "resources": {
+    "stator_winding": 5,
+    "rotor_winding": 3,
+    "impregnation": 4,
+    "robot_cell": 2,
+    "fine_work": 2,
+    "test": 4,
+    "repair": 1,
+    "packing": 2,
+    "agv": 3
+   },
+   "demand_per_day": 90.0,
+   "replications": 10,
+   "operators_3_shifts": 75,
+   "throughput_per_day": {
+    "mean": 89.266,
+    "half": 0.4881962224188146,
+    "lo": 88.77780377758118,
+    "hi": 89.75419622241883,
+    "n": 10
+   },
+   "service_level": {
+    "mean": 0.9957269639531061,
+    "half": 0.009665607538073842,
+    "lo": 0.9860613564150322,
+    "hi": 1.00539257149118,
+    "n": 10
+   },
+   "wip_mean": {
+    "mean": 88.457489717194,
+    "half": 16.730612585633803,
+    "lo": 71.72687713156019,
+    "hi": 105.1881023028278,
+    "n": 10
+   },
+   "lead_time_mean_days": {
+    "mean": 0.9805831797189094,
+    "half": 0.17587742226559097,
+    "lo": 0.8047057574533184,
+    "hi": 1.1564606019845003,
+    "n": 10
+   },
+   "oven_mean_fill": {
+    "mean": 0.9942931308051867,
+    "half": 0.0027806576840929717,
+    "lo": 0.9915124731210937,
+    "hi": 0.9970737884892796,
+    "n": 10
+   },
+   "agv_moves_per_day": {
+    "mean": 625.927,
+    "half": 3.8529828641451296,
+    "lo": 622.0740171358549,
+    "hi": 629.7799828641452,
+    "n": 10
+   },
+   "changeovers_per_day": {
+    "mean": 42.701,
+    "half": 0.5771568342868344,
+    "lo": 42.12384316571317,
+    "hi": 43.27815683428683,
+    "n": 10
+   },
+   "first_pass_yield": {
+    "mean": 0.9598761961903252,
+    "half": 0.0011040846403879397,
+    "lo": 0.9587721115499372,
+    "hi": 0.9609802808307131,
+    "n": 10
+   },
+   "throughput_by_frame": {
+    "small": 59.323,
+    "medium": 17.956,
+    "large": 11.987
+   },
+   "util": {
+    "stator_winding": {
+     "servers": 5,
+     "busy": 0.907526917323752,
+     "down": 0.02267620439993781,
+     "pm": 0.0,
+     "util": 0.9302031217236899,
+     "queue": 4.265344952198904,
+     "wait_min": 63.98111641566271
+    },
+    "rotor_winding": {
+     "servers": 3,
+     "busy": 0.777158709666377,
+     "down": 0.01882482212201812,
+     "pm": 0.0,
+     "util": 0.7959835317883951,
+     "queue": 0.3046527520043053,
+     "wait_min": 4.5787122959702105
+    },
+    "robot_cell": {
+     "servers": 2,
+     "busy": 0.6338318967641812,
+     "down": 0.007670639849322141,
+     "pm": 0.01777777777777778,
+     "util": 0.6592803143912811,
+     "queue": 1.1174414421101302,
+     "wait_min": 16.890117200064676
+    },
+    "fine_work": {
+     "servers": 2,
+     "busy": 0.7288413696618967,
+     "down": 0.0,
+     "pm": 0.0,
+     "util": 0.7288413696618967,
+     "queue": 0.5822866148932245,
+     "wait_min": 8.804304134272922
+    },
+    "test": {
+     "servers": 4,
+     "busy": 0.8207192053061665,
+     "down": 0.015984156126691396,
+     "pm": 0.0,
+     "util": 0.836703361432858,
+     "queue": 1.0137136440194745,
+     "wait_min": 14.726825652175819
+    },
+    "repair": {
+     "servers": 1,
+     "busy": 0.22561185465802033,
+     "down": 0.0,
+     "pm": 0.0,
+     "util": 0.22561185465802033,
+     "queue": 0.04157383927210895,
+     "wait_min": 15.49264617403132
+    },
+    "packing": {
+     "servers": 2,
+     "busy": 0.8952332076817444,
+     "down": 0.0018282883843872232,
+     "pm": 0.0,
+     "util": 0.8970614960661316,
+     "queue": 1.3645615864642595,
+     "wait_min": 20.635980287067714
+    },
+    "impregnation": {
+     "servers": 4,
+     "busy": 0.9773569130064722,
+     "down": 0.020837902548692333,
+     "pm": 0.0,
+     "util": 0.9926283325602812,
+     "queue": 88.67889204142624,
+     "wait_min": 661.2744050319194
+    },
+    "agv": {
+     "servers": 3,
+     "busy": 0.7467532831502266,
+     "down": 0.18995093242253133,
+     "pm": 0.0,
+     "util": 0.936704215572758,
+     "queue": 7.924779751000457,
+     "wait_min": 17.073032589253973
+    }
+   },
+   "bottleneck": "impregnation",
+   "longest_queue": "impregnation",
+   "bottleneck_votes": {
+    "impregnation": 10
+   },
+   "lead_time_days": {
+    "p50": 0.8730760108762587,
+    "p90": 1.481896391105849,
+    "p95": 2.1392643964652773,
+    "max": 3.4032667017376474,
+    "n": 89266
+   },
+   "weekly_demand": 450.0,
+   "little": {
+    "L": 88.457489717194,
+    "lambda_W": 87.6028695411697
+   },
+   "meets_target": true
+  }
+ }
+}
